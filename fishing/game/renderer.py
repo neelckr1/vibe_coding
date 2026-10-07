@@ -4,9 +4,9 @@ renderer: all pygame drawing lives here, kept separate from game logic.
 
 import pygame
 
-WIDTH, HEIGHT = 700, 500
-SURFACE_Y = 80
-MAX_DEPTH_Y = HEIGHT - 40
+WIDTH, HEIGHT = 800, 600
+SURFACE_Y = 60
+MAX_DEPTH_Y = 500
 
 WINDOW_SIZE = (WIDTH, HEIGHT)
 
@@ -22,13 +22,16 @@ def draw_scene(surface, hook, fish_list):
     surface.fill(COLOR_SKY, pygame.Rect(0, 0, WIDTH, SURFACE_Y))
     surface.fill(COLOR_WATER, pygame.Rect(0, SURFACE_Y, WIDTH, HEIGHT - SURFACE_Y))
 
+    # Boat
     pygame.draw.rect(surface, COLOR_BOAT, (hook.x - 40, SURFACE_Y - 20, 80, 22))
 
+    # Line & Hook
     pygame.draw.line(surface, COLOR_LINE, (hook.x, SURFACE_Y), (hook.x, hook.y), 2)
-    pygame.draw.circle(surface, COLOR_HOOK, (int(hook.x), int(hook.y)), 7)
+    pygame.draw.circle(surface, COLOR_HOOK, (int(hook.x), int(hook.y)), 6)
 
+    # Fish
     for fish in fish_list:
-        pygame.draw.ellipse(surface, fish.color, fish.get_rect())
+        pygame.draw.ellipse(surface, fish.color, fish.rect)
 
 
 def draw_text(surface, font, text, pos, color=COLOR_TEXT):
@@ -47,13 +50,11 @@ def draw_game_over(surface, font, score):
     surface.blit(overlay, (0, 0))
 
     lines = [
-        ("TIME'S UP! ROUND OVER", (255, 220, 80)),
-        (f"Final Score: {score}", (255, 255, 255)),
-        ("Press 'R' or SPACE to Play Again", (180, 220, 255)),
+        (f"ROUND OVER! Final Score: {score}", (255, 220, 80)),
+        ("Press 'R' to Restart", (180, 220, 255)),
     ]
-    center_y = surface.get_height() // 2 - 36
+    center_y = surface.get_height() // 2 - 24
     for i, (text, color) in enumerate(lines):
         surf = font.render(text, True, color)
-        rect = surf.get_rect(center=(surface.get_width() // 2, center_y + i * 36))
+        rect = surf.get_rect(center=(surface.get_width() // 2, center_y + i * 40))
         surface.blit(surf, rect)
-

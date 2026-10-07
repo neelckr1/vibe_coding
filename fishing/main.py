@@ -1,5 +1,5 @@
 """
-Fishing Game (Lab Starter)
+Fishing Game
 
 Run with:  python3 main.py
 """
@@ -25,7 +25,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             else:
-                engine.handle_event(event)
+                engine.handle_input(event)
 
         engine.update(dt)
         engine.draw(screen, font)
